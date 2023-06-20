@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Z0J6unH0sw07SArFdUUkn3i6W6qI89Bp+z74NJHPGBNWkuAUdtJSB9hLMU8wMLOD3hXC8UjvJk66APBu0Ld33g==",
+  "success": true,
+  "projectFilePath": "/Users/laurenpaton/RiderProjects/EulerProject/EulerProject/EulerProject.fsproj",
+  "expectedPackageFiles": [
+    "/Users/laurenpaton/.nuget/packages/fsharp.core/6.0.7/fsharp.core.6.0.7.nupkg.sha512"
+  ],
+  "logs": []
+}
