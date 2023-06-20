@@ -1,6 +1,5 @@
 ﻿open Practice 
 open System 
-open Problems
 
 let runP p v =
     let programme = p |> int
@@ -35,8 +34,7 @@ let main argv =
     
     printf $"{s}" 
     let v = 
-        if not (s ="") then Console.ReadLine().Trim()
+        if not (s = "") then Console.ReadLine().Trim()
         else "d"
-
-    let run = runP p v 
+    runP p v 
     0

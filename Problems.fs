@@ -22,34 +22,26 @@ module Problems =
         let i = 
             if argv = "d" then "600851475143"
             else argv
-        let answer =
-            match Int64.TryParse(i) with
-                |true, v -> Library.largestPrime v
-                | _ -> -1
-        
-        if answer = -1 then 
-            printfn $"Invalid String{i}"                
-        else
-            printfn $"{answer}"
+        match Int64.TryParse(i) with
+            |true, v ->
+                let answer =Library.largestPrime v
+                printfn $"{answer}"
+            | _ -> printfn $"Invalid String{i}" 
 
-        
     let p4 argv = 
         let answer = Library.MaxPalindrome 
         printfn $"{answer}"
 
-    let p5 (argv :string) =
+    let p5 (argv : string) =
         let i = 
             if argv = "d" then "20"
             else argv
-        let answer =
-            match Int64.TryParse(i) with
-                |true, v -> Library.commonMultiple v
-                | _ -> -1
-        
-        if answer = -1 then 
-            printfn $"Invalid String{i}"                
-        else
-            printfn $"{answer}"
+            
+        match Int64.TryParse(i) with
+            |true, v ->
+                let answer =Library.commonMultiple v
+                printfn $"{answer}"
+            | _ -> printfn $"Invalid String{i}" 
 
 (*
 Can have one solution with many projects
