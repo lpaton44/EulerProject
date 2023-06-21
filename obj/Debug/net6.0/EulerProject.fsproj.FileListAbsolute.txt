@@ -1,7 +1,3 @@
-/Users/laurenpaton/RiderProjects/EulerProject/EulerProject/obj/Debug/net6.0/EulerProject.fsproj.AssemblyReference.cache
-/Users/laurenpaton/RiderProjects/EulerProject/EulerProject/obj/Debug/net6.0/EulerProject.AssemblyInfoInputs.cache
-/Users/laurenpaton/RiderProjects/EulerProject/EulerProject/obj/Debug/net6.0/EulerProject.AssemblyInfo.fs
-/Users/laurenpaton/RiderProjects/EulerProject/EulerProject/obj/Debug/net6.0/EulerProject.fsproj.CoreCompileInputs.cache
 /Users/laurenpaton/RiderProjects/EulerProject/EulerProject/bin/Debug/net6.0/EulerProject
 /Users/laurenpaton/RiderProjects/EulerProject/EulerProject/bin/Debug/net6.0/EulerProject.deps.json
 /Users/laurenpaton/RiderProjects/EulerProject/EulerProject/bin/Debug/net6.0/EulerProject.runtimeconfig.json
@@ -21,6 +17,10 @@
 /Users/laurenpaton/RiderProjects/EulerProject/EulerProject/bin/Debug/net6.0/tr/FSharp.Core.resources.dll
 /Users/laurenpaton/RiderProjects/EulerProject/EulerProject/bin/Debug/net6.0/zh-Hans/FSharp.Core.resources.dll
 /Users/laurenpaton/RiderProjects/EulerProject/EulerProject/bin/Debug/net6.0/zh-Hant/FSharp.Core.resources.dll
+/Users/laurenpaton/RiderProjects/EulerProject/EulerProject/obj/Debug/net6.0/EulerProject.fsproj.AssemblyReference.cache
+/Users/laurenpaton/RiderProjects/EulerProject/EulerProject/obj/Debug/net6.0/EulerProject.AssemblyInfoInputs.cache
+/Users/laurenpaton/RiderProjects/EulerProject/EulerProject/obj/Debug/net6.0/EulerProject.AssemblyInfo.fs
+/Users/laurenpaton/RiderProjects/EulerProject/EulerProject/obj/Debug/net6.0/EulerProject.fsproj.CoreCompileInputs.cache
 /Users/laurenpaton/RiderProjects/EulerProject/EulerProject/obj/Debug/net6.0/EulerProject.fsproj.CopyComplete
 /Users/laurenpaton/RiderProjects/EulerProject/EulerProject/obj/Debug/net6.0/EulerProject.dll
 /Users/laurenpaton/RiderProjects/EulerProject/EulerProject/obj/Debug/net6.0/EulerProject.pdb
