@@ -19,7 +19,7 @@ let main argv =
     2: Summing Fibonacci numbers below a limit
     3: Finding largest prime factor of a number 
     4: Finding the largest number that is a palindrome and a product of two n-digit numbers 
-    5: Finding the smallest common multiple of numbers 1...n" 
+    5: Finding the smallest common multiple of numbers 1...n \n" 
 
     let p = Console.ReadLine().Trim()
     let programme = p |> int

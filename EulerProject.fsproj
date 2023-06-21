@@ -15,4 +15,8 @@
       <Folder Include=".git\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include=".gitignore" />
+    </ItemGroup>
+
 </Project>

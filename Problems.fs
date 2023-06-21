@@ -7,9 +7,18 @@ module Methods =
             [ 0..limit ]
             |> List.filter (fun i -> i % 3 = 0 || i % 5 = 0)
             |> List.sum
-                
+            
+    (* accidentally eradicated need for Fib function? struggled to make it tail recursive with an upper limit*)
+    let getFibs limit =
+        let rec inner a b term acc =
+            if b > limit then
+                acc
+            else
+                inner b (a + b) (term + 1) (b :: acc)
+        inner 0L 1L 1 []
+        
     let sumEvenFibs limit =
-        Library.getFibs limit
+        getFibs limit
             |> List.filter Library.isEven
             |> List.sum 
         
