@@ -1,47 +1,53 @@
 ﻿namespace Practice
 open System
-open Library 
+open Library
 
-module Problems = 
-    
+// go and watch railway oriented programming by Scott Wlaschin
+// alternatively Functional design patterns by Scott Wlaschin
+// From dependency injection to dependency rejection - Mark Seemann
+
+// https://docs.google.com/document/d/1Cpcgy3HanQeE169HSlmsjRVc-V9tO-YpS5NrKEXFcps/edit
+
+module Problems =
+
     let p1 argv =
         let limit =
             if argv = "d" then 1000
-            else argv |> int 
+            else argv |> int
         let answer = Library.sumMultiples limit
         printfn $"{answer}"
-    
+
     let p2 argv =
         let limit =
             if argv = "d" then 4000000
-            else argv |> int 
+            else argv |> int
         let answer = Library.sumEvenFibs limit
-        printfn $"{answer}" 
+        printfn $"{answer}"
 
-    let p3 (argv: string) = 
-        let i = 
+    let p3 (argv: string) =
+        let i =
             if argv = "d" then "600851475143"
             else argv
         match Int64.TryParse(i) with
             |true, v ->
                 let answer =Library.largestPrime v
                 printfn $"{answer}"
-            | _ -> printfn $"Invalid String{i}" 
+            | _ -> printfn $"Invalid String{i}"
 
-    let p4 argv = 
-        let answer = Library.MaxPalindrome 
+    let p4 argv =
+        let answer = Library.MaxPalindrome
         printfn $"{answer}"
 
     let p5 (argv : string) =
-        let i = 
+        let i =
             if argv = "d" then "20"
             else argv
-            
+
         match Int64.TryParse(i) with
             |true, v ->
                 let answer =Library.commonMultiple v
                 printfn $"{answer}"
-            | _ -> printfn $"Invalid String{i}" 
+            | _ -> printfn $"Invalid String{i}"
 
 (*
 Can have one solution with many projects
