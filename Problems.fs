@@ -8,7 +8,6 @@ module Methods =
             |> List.filter (fun i -> i % 3 = 0 || i % 5 = 0)
             |> List.sum
             
-    (* accidentally eradicated need for Fib function? struggled to make it tail recursive with an upper limit*)
     let getFibs limit =
         let rec inner a b term acc =
             if b > limit then
