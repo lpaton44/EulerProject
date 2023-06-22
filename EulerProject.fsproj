@@ -17,6 +17,8 @@
 
     <ItemGroup>
       <Content Include=".gitignore" />
+      <Content Include="matrix.txt" />
+      <Content Include="matrix2.txt" />
     </ItemGroup>
 
 </Project>

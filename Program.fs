@@ -9,6 +9,7 @@ let runP p v =
     | 3 -> Problems.p3 v
     | 4 -> Problems.p4 v
     | 5 -> Problems.p5 v
+    | 8 -> Problems.p8 v
     | _ -> printfn "Invalid number." 
 
 
@@ -19,7 +20,8 @@ let main argv =
     2: Summing Fibonacci numbers below a limit
     3: Finding largest prime factor of a number 
     4: Finding the largest number that is a palindrome and a product of two n-digit numbers 
-    5: Finding the smallest common multiple of numbers 1...n \n" 
+    5: Finding the smallest common multiple of numbers 1...
+    8: Finding the smallest common multiple of numbers 1...n \n" 
 
     let p = Console.ReadLine().Trim()
     let programme = p |> int
@@ -30,6 +32,7 @@ let main argv =
             | 3 -> "Enter value or d for (default): "
             | 4 -> "Enter the number of digits: "
             | 5 -> "Enter value or d for (default = 20): "
+            | 8 -> "Enter matrix file name:  "
             | _ -> "Invalid Number."
     
     printf $"{s}" 

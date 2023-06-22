@@ -1,21 +1,32 @@
 ﻿namespace Practice
 open System
-open Library 
+open System.IO
+open Library
+
 module Methods =
     
     let sumMultiples limit=
             [ 0..limit ]
             |> List.filter (fun i -> i % 3 = 0 || i % 5 = 0)
             |> List.sum
-            
+    
     let getFibs limit =
-        let rec inner a b term acc =
+        let rec inner a b acc =
             if b > limit then
                 acc
             else
-                inner b (a + b) (term + 1) (b :: acc)
-        inner 0L 1L 1 []
+                inner b (a + b) (b :: acc)
+        inner 0L 1L []
         
+    (*let lastChanceFibs limit =
+        let rec inner a b n acc =
+            if (b > limit) then
+                acc
+            else
+                let f = Library.fibTail a b n
+                inner b (a + b) (n + 1) (f :: acc)
+        inner 0L 1L 1 []*)
+            
     let sumEvenFibs limit =
         getFibs limit
             |> List.filter Library.isEven
@@ -60,7 +71,7 @@ module Problems =
             if argv = "d" then 4000000
             else argv |> int 
         let answer = Methods.sumEvenFibs limit
-        printfn $"{answer}" 
+        printfn $"{answer}"
 
     let p3 (argv: string) = 
         let i = 
@@ -86,7 +97,39 @@ module Problems =
             |true, v ->
                 let answer = Methods.commonMultipleUpTo v
                 printfn $"{answer}"
-            | _ -> printfn $"Invalid String{i}" 
+            | _ -> printfn $"Invalid String{i}"
+    
+    let p8 (argv : string) =
+        let filePath =
+            if argv = "d" then "matrix2.txt"
+            else argv
+            
+        if not (File.Exists filePath) then
+            printfn $"File not found: {filePath}"
+            
+        elif not (File.Exists filePath) then
+            printfn $"File not found:{filePath}"
+            
+        else
+            printfn "Processing" 
+            try
+                let n = Library.getMatrix filePath
+                printfn $"{n}"
+            with
+            | :? FormatException as e ->
+                printfn "Error: %s" e.Message
+                printf "The file was not in the expected format."
+                
+            | :? IOException as e ->
+                printfn "Error: %s" e.Message
+                printfn "If the file is open in another program, please close it."
+                
+            | _ as e ->
+                printfn $"Unexpected error: {e.Message}"
+                
+            
+            
+    
 
 (*
 Can have one solution with many projects
