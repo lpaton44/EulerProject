@@ -15,7 +15,10 @@ let runP p v =
 
 [<EntryPoint>]
 let main argv = 
-    printf "Enter the problem you would like solved:
+    
+    runP 8 "matrix.txt"
+    
+    (*printf "Enter the problem you would like solved:
     1: Numbers below a limit divisible by 3 or 5 
     2: Summing Fibonacci numbers below a limit
     3: Finding largest prime factor of a number 
@@ -39,5 +42,5 @@ let main argv =
     let v = 
         if not (s = "") then Console.ReadLine().Trim()
         else "d"
-    runP p v 
+    runP p v *)
     0

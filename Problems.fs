@@ -11,21 +11,12 @@ module Methods =
             |> List.sum
     
     let getFibs limit =
-        let rec inner a b acc =
+        let rec Fibs a b acc =
             if b > limit then
                 acc
             else
-                inner b (a + b) (b :: acc)
-        inner 0L 1L []
-        
-    (*let lastChanceFibs limit =
-        let rec inner a b n acc =
-            if (b > limit) then
-                acc
-            else
-                let f = Library.fibTail a b n
-                inner b (a + b) (n + 1) (f :: acc)
-        inner 0L 1L 1 []*)
+                Fibs b (a + b) (b :: acc)
+        Fibs 0L 1L []
             
     let sumEvenFibs limit =
         getFibs limit
@@ -128,25 +119,3 @@ module Problems =
                 printfn $"Unexpected error: {e.Message}"
                 
             
-            
-    
-
-(*
-Can have one solution with many projects
-Make one solution
-Two projects
-- Library
-- Problems
-- read our style guide (Terence will send link).
-- Set up Rider properly
-- Set up F# version correctly
-- Set up .NET version correctly
-- Set up solution properly
-- Get correct Rider version
-
-
-- Factor out the sum function so that its a function on its own, call it from main
-- Line 6 you don't need the "for"
-- Would normally use a list or sequence
-
-*)
