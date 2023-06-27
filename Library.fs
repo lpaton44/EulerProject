@@ -74,8 +74,8 @@ module Library =
     
     type State = {
         currentNode: StructPoint
-        visited: StructPoint Set
-        distances: Map <StructPoint, Node>  
+        distances: Map<StructPoint,Node>
+        unvisited: StructPoint Set
     }
     
     let minOfMap (map : Map<_,_>) (set : StructPoint Set) =
@@ -90,7 +90,9 @@ module Library =
             | _,_ ->
                 [{X = i; Y = j + 1}; {X = i + 1; Y = j}]
     
-    
+    let identity (map: Map<_,_>) =
+        map
+        
     let dijkstra (matrix: int list list) =
         
         let rowCount = List.length matrix - 1
@@ -98,51 +100,58 @@ module Library =
         
         let mutable values = Map.empty
         let mutable unvisited = Set.empty
-        let mutable distances = Map.empty
         
         let start = {X = 0; Y = 0}
         let startVal = matrix.[0][0] 
         let startNode = {cost = startVal; parent = None}
-        distances <- distances |> Map.add start startNode
+        let distances = Map.empty |> Map.add start startNode
          
         for i in 0..rowCount do
             for j in 0..columnCount do
                 let key = {X = i; Y = j}
                 let value = matrix.[i].[j]
-                unvisited <- unvisited |> Set.add key
+                unvisited <- unvisited |> Set.add key //how would I populate these without using a mutable variable? 
                 values <- values |> Map.add key value
         
-        let rec inner currentNode =
-          let neighbours = getAdjacentNodes currentNode rowCount columnCount
+        let rec inner state =
+          let neighbours = getAdjacentNodes state.currentNode rowCount columnCount
           let currentNodeCost =
-                match distances.TryFind currentNode with
+                match state.distances.TryFind state.currentNode with
                 | Some node -> node.cost
                 | None -> -1
-                    
-          if unvisited.Count = 1 || not (unvisited.Contains currentNode) then
-              None 
+          
+          if state.unvisited.Count = 1 || not (state.unvisited.Contains state.currentNode) then
+              state.distances 
           else          
-              for neighbour in neighbours do
-                if unvisited.Contains neighbour then
-                    let neighbourNodeDistance = // find distance to node if it exists 
-                      match distances.TryFind neighbour with
-                      | Some node -> node.cost
-                      | None -> -1
-                    let neighbourNodeCost = values.[neighbour]
-                    let newCost = currentNodeCost + neighbourNodeCost// value of path using currrentNode as parent 
-                    let newNeighbourNode = {cost = newCost; parent = Some currentNode} // new node using current node's path
-                    
-                    if (neighbourNodeDistance = -1) then //if no value exists add one
-                        distances <- distances |> Map.add neighbour newNeighbourNode
-                    elif newCost < neighbourNodeDistance then //if new value is shorter path, replace old one
-                        distances <- distances |> Map.change neighbour (fun _ -> Some newNeighbourNode)
-                   
-              unvisited <- unvisited |> Set.remove currentNode
-              let nextNode = minOfMap distances unvisited
-              inner nextNode.Key
+              let Functions = 
+                [
+                 for neighbour in neighbours do
+                    if state.unvisited.Contains neighbour then
+                        let neighbourNodeDistance = // find distance to node if it exists 
+                          match state.distances.TryFind neighbour with
+                          | Some node -> node.cost
+                          | None -> -1
+                        let neighbourNodeCost = values.[neighbour]
+                        let newCost = currentNodeCost + neighbourNodeCost// value of path using currrentNode as parent 
+                        let newNeighbourNode = {cost = newCost; parent = Some state.currentNode} // new node using current node's path
+                        if (neighbourNodeDistance = -1) then //if no value exists add one
+                            (Map.add neighbour newNeighbourNode)
+                        elif newCost < neighbourNodeDistance then //if new value is shorter path, replace old one
+                             (Map.change neighbour (fun _ -> Some newNeighbourNode))
+                        else identity
+                ]              
+              let compFunctions =
+                  if Functions.Length > 0  then Functions |> List.reduce (>>)
+                  else identity
+              let newDistances = state.distances |> compFunctions
+              let newUnvisited = state.unvisited |> Set.remove state.currentNode
+              
+              let nextNode = minOfMap newDistances newUnvisited
+              let state = {currentNode = nextNode.Key; distances = newDistances; unvisited = newUnvisited}
+              inner state
    
-        let m = inner start
-        let final = distances.[{X = rowCount; Y = columnCount}]
+        let ds = inner {currentNode = start; distances = distances; unvisited = unvisited}
+        let final = ds.[{X = rowCount; Y = columnCount}]
         final.cost
             
     let rowFromString (row : string)  =
