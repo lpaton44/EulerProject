@@ -102,7 +102,6 @@ module Problems =
             printfn $"File not found:{filePath}"
             
         else
-            printfn "Processing" 
             try
                 let n = Library.getMatrix filePath
                 printfn $"{n}"

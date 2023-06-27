@@ -58,69 +58,93 @@ module Library =
                     if path1 > path2 then inner2 (row + 1) column (value + matrix.[row + 1].[column])
                     else inner2 row (column + 1) (value + matrix.[row].[column + 1])     
         inner2 0 0 start
-           
+    
+    
+    [<Struct>]
+    type StructPoint = 
+        {
+          X: int
+          Y: int
+        }
+               
     type Node = {
-        coord: int*int
         mutable cost: int
-        mutable parent: Node Option       
+        mutable parent: StructPoint Option       
     }
+    
+    type State = {
+        currentNode: StructPoint
+        visited: StructPoint Set
+        distances: Map <StructPoint, Node>  
+    }
+    
+    let minOfMap (map : Map<_,_>) (set : StructPoint Set) =
+        map |> Map.filter (fun k v -> set.Contains k ) |> Seq.minBy (fun pair-> pair.Value) 
+
+    let getAdjacentNodes coords rowCount columnCount =
+            let i,j = coords.X, coords.Y
+            match i, j with
+            | row, col when (row = rowCount && col = columnCount) -> []
+            | row, _ when row = rowCount -> [{X = i; Y = j + 1}]
+            | _, col when col = columnCount -> [{X = i + 1; Y =  j}]
+            | _,_ ->
+                [{X = i; Y = j + 1}; {X = i + 1; Y = j}]
+    
     
     let dijkstra (matrix: int list list) =
         
         let rowCount = List.length matrix - 1
         let columnCount = List.length matrix.[0] - 1
+        
+        let mutable values = Map.empty
+        let mutable unvisited = Set.empty
+        let mutable distances = Map.empty
+        
+        let start = {X = 0; Y = 0}
+        let startVal = matrix.[0][0] 
+        let startNode = {cost = startVal; parent = None}
+        distances <- distances |> Map.add start startNode
          
-        let nodes = Array2D.init (rowCount + 1) (columnCount + 1) (fun i j ->
-            if i = 0 && j = 0 then
-                { coord = (0, 0); cost = matrix.[0].[0]; parent = None }
-            else
-                { coord = (i, j); cost = Int32.MaxValue; parent = None }
-        )
+        for i in 0..rowCount do
+            for j in 0..columnCount do
+                let key = {X = i; Y = j}
+                let value = matrix.[i].[j]
+                unvisited <- unvisited |> Set.add key
+                values <- values |> Map.add key value
         
-        let mutable visited = Array2D.create (rowCount + 1) (columnCount + 1) false
-
-        let mutable queue = [nodes.[0,0]]
-        
-        let getAdjacentNodes node =
-            let i, j = node.coord
-            match i, j with
-            | row, col when (row = rowCount && col = columnCount) -> []
-            | row, _ when row = rowCount -> [(i, j + 1)]
-            | _, col when col = columnCount -> [(i+1, j)]
-            | _,_ ->
-                [(i, j + 1); (i + 1, j)]
-        
-        let addToQueue node =
-            queue <- node :: queue
-
-        let getFromQueue () =
-            let node = List.head queue
-            queue <- List.tail queue
-            node
-            
-        let checkAdjacent currentNode (i, j)=
-            let neighborNode = nodes.[i,j]
-            let newCost = currentNode.cost + matrix[i][j]
-            
-            if newCost < neighborNode.cost then
-                neighborNode.cost <- newCost
-                neighborNode.parent <- Some currentNode
-                addToQueue neighborNode
-                            
-        while queue <> [] do           
-            let currentNode = getFromQueue ()
-            let x, y = currentNode.coord
-            
-            if not (visited.[x, y]) then
-                visited.[x, y] <- true
-                
-                for adj in getAdjacentNodes currentNode do
-                    let (i, j) = adj
-                    checkAdjacent currentNode (i, j)
+        let rec inner currentNode =
+          let neighbours = getAdjacentNodes currentNode rowCount columnCount
+          let currentNodeCost =
+                match distances.TryFind currentNode with
+                | Some node -> node.cost
+                | None -> -1
                     
-        let dest = nodes.[rowCount, columnCount]
-        dest.cost 
-         
+          if unvisited.Count = 1 || not (unvisited.Contains currentNode) then
+              None 
+          else          
+              for neighbour in neighbours do
+                if unvisited.Contains neighbour then
+                    let neighbourNodeDistance = // find distance to node if it exists 
+                      match distances.TryFind neighbour with
+                      | Some node -> node.cost
+                      | None -> -1
+                    let neighbourNodeCost = values.[neighbour]
+                    let newCost = currentNodeCost + neighbourNodeCost// value of path using currrentNode as parent 
+                    let newNeighbourNode = {cost = newCost; parent = Some currentNode} // new node using current node's path
+                    
+                    if (neighbourNodeDistance = -1) then //if no value exists add one
+                        distances <- distances |> Map.add neighbour newNeighbourNode
+                    elif newCost < neighbourNodeDistance then //if new value is shorter path, replace old one
+                        distances <- distances |> Map.change neighbour (fun _ -> Some newNeighbourNode)
+                   
+              unvisited <- unvisited |> Set.remove currentNode
+              let nextNode = minOfMap distances unvisited
+              inner nextNode.Key
+   
+        let m = inner start
+        let final = distances.[{X = rowCount; Y = columnCount}]
+        final.cost
+            
     let rowFromString (row : string)  =
         let rowSeq = row.Split ','
         rowSeq
