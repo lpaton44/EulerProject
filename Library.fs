@@ -94,7 +94,7 @@ module Library =
         map
         
     let dijkstra (matrix: int list list) =
-        
+
         let rowCount = List.length matrix - 1
         let columnCount = List.length matrix.[0] - 1
         
@@ -102,15 +102,14 @@ module Library =
         let mutable unvisited = Set.empty
         
         let start = {X = 0; Y = 0}
-        let startVal = matrix.[0][0] 
-        let startNode = {cost = startVal; parent = None}
+        let startNode = {cost = 0; parent = None}
         let distances = Map.empty |> Map.add start startNode
          
         for i in 0..rowCount do
             for j in 0..columnCount do
                 let key = {X = i; Y = j}
                 let value = matrix.[i].[j]
-                unvisited <- unvisited |> Set.add key //how would I populate these without using a mutable variable? 
+                unvisited <- unvisited |> Set.add key  
                 values <- values |> Map.add key value
         
         let rec inner state =
@@ -155,15 +154,21 @@ module Library =
         final.cost
             
     let rowFromString (row : string)  =
-        let rowSeq = row.Split ','
+        let rowSeq = row.Split(',')
+        //let rowSeq = row.ToCharArray()
+        
         rowSeq
             |> Seq.map (fun i -> i.Trim())
             |> Seq.map int
+            //|> Seq.map (fun c -> int(c) - int('0'))
             |> Seq.toList
-     
+        
+   
     let getMatrix fp =
+        let m = File.ReadLines fp
         let matrix =
-            File.ReadLines fp
+            m
             |> Seq.map rowFromString
-            |> Seq.toList     
+            |> Seq.toList
+        //printfn $"{matrix}"    
         dijkstra matrix 
